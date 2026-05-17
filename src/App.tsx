@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserStore } from './stores/userStore';
 
 // Screens
@@ -17,9 +17,12 @@ import WorkoutCompleteScreen from './screens/WorkoutCompleteScreen';
 import AdjustSessionScreen from './screens/AdjustSessionScreen';
 import FormCheckResultsScreen from './screens/FormCheckResultsScreen';
 import ExerciseLibraryScreen from './screens/ExerciseLibraryScreen';
+import SignupScreen from './screens/SignupScreen';
+import LoginScreen from './screens/LoginScreen';
 
 type Screen =
   | 'splash'
+  | 'signup' | 'login'
   | 'onboarding-goals' | 'onboarding-experience' | 'onboarding-equipment'
   | 'onboarding-schedule' | 'onboarding-injuries' | 'onboarding-intro'
   | 'home' | 'active-workout' | 'coach' | 'progress' | 'workout-complete'
@@ -64,6 +67,15 @@ export default function App() {
 
   const navigate = (s: string) => setScreen(s as Screen);
 
+  useEffect(() => {
+    if (screen === 'splash') {
+      const timer = setTimeout(() => {
+        setScreen('signup');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [screen]);
+
   const handleTabChange = (tab: Tab) => {
     setActiveTab(tab);
     setScreen(tab === 'home' ? 'home' : tab === 'coach' ? 'coach' : 'progress');
@@ -75,7 +87,9 @@ export default function App() {
 
   const renderScreen = () => {
     switch (screen) {
-      case 'splash': return <SplashScreen onStart={() => navigate('onboarding-goals')} />;
+      case 'splash': return <SplashScreen onStart={() => navigate('signup')} />;
+      case 'signup': return <SignupScreen onNavigate={navigate} />;
+      case 'login': return <LoginScreen onNavigate={navigate} />;
       case 'onboarding-goals': return <GoalsScreen onNext={() => navigate('onboarding-experience')} />;
       case 'onboarding-experience': return <ExperienceScreen onNext={() => navigate('onboarding-equipment')} onBack={() => navigate('onboarding-goals')} />;
       case 'onboarding-equipment': return <EquipmentScreen onNext={() => navigate('onboarding-schedule')} onBack={() => navigate('onboarding-experience')} />;
