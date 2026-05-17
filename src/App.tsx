@@ -16,13 +16,14 @@ import ProgressScreen from './screens/ProgressScreen';
 import WorkoutCompleteScreen from './screens/WorkoutCompleteScreen';
 import AdjustSessionScreen from './screens/AdjustSessionScreen';
 import FormCheckResultsScreen from './screens/FormCheckResultsScreen';
+import ExerciseLibraryScreen from './screens/ExerciseLibraryScreen';
 
 type Screen =
   | 'splash'
   | 'onboarding-goals' | 'onboarding-experience' | 'onboarding-equipment'
   | 'onboarding-schedule' | 'onboarding-injuries' | 'onboarding-intro'
   | 'home' | 'active-workout' | 'coach' | 'progress' | 'workout-complete'
-  | 'adjust-session' | 'form-check-results';
+  | 'adjust-session' | 'form-check-results' | 'exercise-library';
 
 type Tab = 'home' | 'coach' | 'progress';
 
@@ -69,7 +70,7 @@ export default function App() {
   };
 
   const isMainApp = ['home', 'coach', 'progress'].includes(screen);
-  const isFullscreen = ['active-workout', 'workout-complete', 'adjust-session', 'form-check-results'].includes(screen);
+  const isFullscreen = ['active-workout', 'workout-complete', 'adjust-session', 'form-check-results', 'exercise-library'].includes(screen);
   const showOnboarding = screen.startsWith('onboarding');
 
   const renderScreen = () => {
@@ -94,6 +95,8 @@ export default function App() {
         return <FormCheckResultsScreen onBack={() => navigate('active-workout')} />;
       case 'adjust-session':
         return <AdjustSessionScreen onBack={() => navigate('home')} onSwap={() => {}} />;
+      case 'exercise-library':
+        return <ExerciseLibraryScreen onBack={() => navigate('home')} />;
       case 'workout-complete': return <WorkoutCompleteScreen onHome={() => { navigate('home'); setActiveTab('home'); }} />;
       case 'coach': return <CoachChatScreen />;
       case 'progress': return <ProgressScreen />;

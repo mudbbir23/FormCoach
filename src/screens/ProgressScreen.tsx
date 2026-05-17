@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useWorkoutStore } from '../stores/workoutStore';
+import { useUserStore } from '../stores/userStore';
 
 type ProgressTab = 'strength' | 'body' | 'consistency';
 
@@ -57,10 +58,12 @@ export default function ProgressScreen() {
   const [tab, setTab] = useState<ProgressTab>('strength');
   const [selectedExercise, setSelectedExercise] = useState('bench-press');
   const { history, personalRecords } = useWorkoutStore();
+  const { profile } = useUserStore();
 
   const totalVolume = history.reduce((sum, w) => sum + w.totalVolume, 0);
   const totalWorkouts = history.length;
   const consistencyScore = 87;
+  const hoursTrained = Math.round(history.reduce((sum, w) => sum + w.duration, 0) / 3600);
 
   return (
     <div className="screen" style={{ paddingBottom: 16 }}>
@@ -202,10 +205,23 @@ export default function ProgressScreen() {
             <div className="card" style={{ textAlign: 'center', padding: '14px 10px' }}>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 26, fontWeight: 700, color: '#00C896' }}>21</div>
               <div className="section-label" style={{ marginTop: 4 }}>Current Streak</div>
+              <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: '#85948c', marginTop: 4 }}>Top 5% this month</div>
             </div>
             <div className="card" style={{ textAlign: 'center', padding: '14px 10px' }}>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 26, fontWeight: 700, color: '#e5e2e1' }}>24</div>
-              <div className="section-label" style={{ marginTop: 4 }}>Longest Streak</div>
+              <div className="section-label" style={{ marginTop: 4 }}>Personal Best</div>
+              <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, color: '#85948c', marginTop: 4 }}>3 days to beat record</div>
+            </div>
+          </div>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+            <div className="card" style={{ textAlign: 'center', padding: '12px 10px' }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 20, fontWeight: 700, color: '#e5e2e1' }}>{totalWorkouts}</div>
+              <div className="section-label" style={{ marginTop: 2 }}>Total Sessions</div>
+            </div>
+            <div className="card" style={{ textAlign: 'center', padding: '12px 10px' }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 20, fontWeight: 700, color: '#e5e2e1' }}>{hoursTrained}</div>
+              <div className="section-label" style={{ marginTop: 2 }}>Hours Trained</div>
             </div>
           </div>
 
@@ -225,9 +241,13 @@ export default function ProgressScreen() {
             })}
           </div>
 
-          <div style={{ marginTop: 14, background: 'rgba(0,200,150,0.06)', borderLeft: '2px solid #00C896', borderRadius: 12, padding: '12px 14px' }}>
+          <div style={{ marginTop: 14, background: 'rgba(0,200,150,0.06)', borderLeft: '2px solid #00C896', borderRadius: 12, padding: '14px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <strong style={{ color: '#00C896', fontFamily: "'Inter', sans-serif", fontSize: 13 }}>Coach's Observation</strong>
+              <span style={{ color: '#85948c', fontFamily: "'JetBrains Mono', monospace", fontSize: 10 }}>Just now</span>
+            </div>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: '#bbcac1', lineHeight: '19px' }}>
-              📈 <strong style={{ color: '#00C896' }}>Coach insight:</strong> Your Monday–Wednesday–Friday pattern is locked in. The weekend sessions are bonus — keep them optional so they don't create guilt.
+              Your consistency in the 6 AM window is remarkable, {profile.name || 'Mark'}. Maintaining this rhythm for 12 consecutive days has improved your recovery score by 14%. Keep the streak alive through the weekend.
             </p>
           </div>
         </div>

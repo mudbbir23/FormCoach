@@ -1,127 +1,95 @@
-# FormCoach: AI Fitness Coach
+# FormCoach AI Fitness System
 
-FormCoach is not just a workout tracker — it is an AI-powered fitness coach with persistent memory, real-time form feedback, and lifestyle-aware session planning. The target user is a busy professional who wants a personal trainer experience directly from their phone.
-
-This repository contains the high-fidelity React frontend prototype for the FormCoach mobile application. 
+FormCoach is an advanced, AI-powered fitness application built with React, Vite, and Zustand. It provides users with dynamic workout adjustments, form check analysis, and consistency tracking wrapped in a premium, silent high-performance "dark mode" aesthetic.
 
 ## Features
-- **Intelligent Onboarding:** 6-step flow assessing goals, experience, equipment, schedule, and injuries.
-- **Adaptive Dashboard:** Muscle heatmaps, daily coach check-ins, and dynamic workout previews.
-- **Active Workout System:** Live set logging, rest timers, and in-workout AI adjustments.
-- **Persistent AI Coach:** An AI that remembers your past workouts, fatigue levels, and injuries, and modifies your program accordingly.
-- **"Silent High-Performance" Design:** Dark-mode minimalist UI utilizing the Stitch design system.
+
+- **Dynamic Workouts:** Start, adjust, and track live sessions with an interactive interface.
+- **AI Coach Integration:** Receive real-time telemetry on form and body insights.
+- **Progress Tracking:** Deep insights into body composition, strength curves, and consistency streaks.
+- **Exercise Library:** Browse and filter exercises by muscle group and equipment.
 
 ## Tech Stack
-- **Framework:** React 18 + Vite
+
+- **Framework:** React 19 + Vite
 - **Language:** TypeScript
-- **State Management:** Zustand (Stores for User, Workout, and AI Coach)
-- **Styling:** CSS / Tailwind (Design System)
-- **Icons:** Lucide React
-
-## Local Development
-
-1. **Install Dependencies**
-   ```bash
-   npm install
-   ```
-
-2. **Run Development Server**
-   ```bash
-   npm run dev
-   ```
-
-3. **Build for Production**
-   ```bash
-   npm run build
-   ```
+- **State Management:** Zustand
+- **Styling:** Custom CSS (Silent High-Performance Dark Mode)
+- **Icons:** Custom SVG and Feather icons
 
 ---
 
 ## Deployment Guide: Apple App Store & Google Play Store
 
-Since this application is built as a responsive web app using React and Vite, the most efficient way to deploy it natively to iOS and Android is by wrapping it with **Capacitor** (by Ionic). Capacitor turns your web app into a native mobile app.
+We will deploy this web application as a native mobile app using **Capacitor**.
 
-### 1. Preparing the App for Mobile
-First, install Capacitor in your project:
+### Prerequisites
+
+1. **Node.js** (v18+)
+2. **Android Studio** (For Google Play Store deployment)
+3. **Xcode** (For Apple App Store deployment - requires a Mac)
+4. **Capacitor CLI** installed globally (`npm i -g @capacitor/cli`)
+
+### Step 1: Install Capacitor
+
+Inside the project directory, run:
 ```bash
 npm install @capacitor/core @capacitor/ios @capacitor/android
 npm install -D @capacitor/cli
 ```
 
-Initialize Capacitor (you only do this once):
-```bash
-npx cap init FormCoach com.formcoach.app --web-dir dist
-```
+### Step 2: Initialize Capacitor
 
-Build your React web app:
+```bash
+npx cap init FormCoach com.formcoach.app
+```
+*Note: Make sure your `capacitor.config.ts` points the `webDir` to `dist`.*
+
+### Step 3: Build the Web App
+
+Compile the production bundle of the React app:
 ```bash
 npm run build
 ```
 
-Add the native platforms:
+### Step 4: Add Native Platforms
+
 ```bash
 npx cap add ios
 npx cap add android
 ```
 
-Sync your web assets to the native projects:
+### Step 5: Sync Web Code to Native Projects
+
+Every time you run `npm run build` and update the web code, you must sync it to the iOS and Android folders:
 ```bash
 npx cap sync
 ```
 
-### 2. Deploying to the Apple App Store (iOS)
+---
 
-**Requirements:**
-- A Mac computer.
-- Xcode installed (from the Mac App Store).
-- An Apple Developer account ($99/year).
+## Deploying to Apple App Store (iOS)
 
-**Steps:**
-1. **Open Xcode:**
+1. Open the project in Xcode:
    ```bash
    npx cap open ios
    ```
-2. **Configure App Settings in Xcode:**
-   - Click on the "App" project in the left sidebar.
-   - Go to the **Signing & Capabilities** tab.
-   - Check "Automatically manage signing" and select your Apple Developer Team.
-   - Set your minimum iOS deployment target (e.g., iOS 13.0).
-3. **App Icons & Splash Screens:**
-   - Use a tool like `cordova-res` or `@capacitor/assets` to generate iOS icons and splash screens.
-4. **Create an Archive:**
-   - In Xcode, select "Any iOS Device (arm64)" from the target device dropdown at the top.
-   - Go to the menu bar: **Product > Archive**.
-5. **Distribute App:**
-   - Once the archive completes, the Organizer window will open.
-   - Click **Distribute App** and follow the prompts to upload your app to App Store Connect.
-6. **TestFlight & App Store:**
-   - Go to [App Store Connect](https://appstoreconnect.apple.com/).
-   - You can now distribute the app via TestFlight to beta testers.
-   - Once ready, fill out the App Store listing details, attach screenshots, and submit for Apple Review.
+2. In Xcode, configure your **Signing & Capabilities**. Select your Apple Developer Team.
+3. Update App Icons and Splash Screens in `Assets.xcassets`.
+4. Select the target device as **Any iOS Device (arm64)**.
+5. Go to **Product > Archive**.
+6. Once archived, click **Distribute App** and follow the prompts to upload it to **App Store Connect** / TestFlight.
 
-### 3. Deploying to the Google Play Store (Android)
+## Deploying to Google Play Store (Android)
 
-**Requirements:**
-- Android Studio installed.
-- A Google Play Console Developer account ($25 one-time fee).
-
-**Steps:**
-1. **Open Android Studio:**
+1. Open the project in Android Studio:
    ```bash
    npx cap open android
    ```
-2. **Configure App Settings:**
-   - Open `android/app/build.gradle` and ensure your `applicationId` (e.g., `com.formcoach.app`) and `versionCode`/`versionName` are set correctly.
-3. **App Icons & Splash Screens:**
-   - Generate your Android icons and splash screens using `@capacitor/assets` and sync them.
-4. **Generate a Signed Bundle:**
-   - In Android Studio, go to the menu bar: **Build > Generate Signed Bundle / APK...**
-   - Select **Android App Bundle**.
-   - Create a new Keystore (or choose an existing one) and fill in the passwords and alias. Keep this Keystore file safe! You need it for all future updates.
-   - Select the **release** build variant and click Finish.
-5. **Upload to Google Play Console:**
-   - Go to the [Google Play Console](https://play.google.com/console/).
-   - Create a new app and fill out the store listing details, content ratings, and pricing.
-   - Go to **Testing > Internal Testing** (or Production) and create a new release.
-   - Upload the `.aab` (Android App Bundle) file generated by Android Studio.
-   - Review and rollout the release to submit it to Google for review.
+2. Wait for Gradle to sync completely.
+3. Update App Icons in `res/mipmap` and the `AndroidManifest.xml` if needed.
+4. Go to **Build > Generate Signed Bundle / APK...**.
+5. Choose **Android App Bundle (.aab)**.
+6. Create a new Key Store or select an existing one. Enter passwords and alias details.
+7. Click **Finish** to build the `.aab` file.
+8. Upload this `.aab` file to the **Google Play Console** under your app release track.
