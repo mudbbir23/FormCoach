@@ -97,9 +97,14 @@ html, body { height: 100%; background: #0a0a0a; overflow: hidden; }
   border: 1px solid #242424;
   border-radius: 16px;
   padding: 16px;
-  transition: border-color 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
-.card:active { border-color: rgba(0,200,150,0.3); }
+.card:active { 
+  border-color: rgba(0,200,150,0.3); 
+  transform: scale(0.98);
+  background: #181717;
+}
 
 /* ─── Buttons ────────────────────────────────────────────────────────── */
 .btn-primary {

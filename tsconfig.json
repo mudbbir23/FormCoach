@@ -13,6 +13,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "esModuleInterop": true,
+    "types": ["vite/client"],
 
     /* Linting — relaxed for dev speed */
     "strict": true,
