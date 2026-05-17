@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 /* ─── Reset ─────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }
 html, body { height: 100%; background: #0a0a0a; overflow: hidden; }
 #root { height: 100%; display: flex; align-items: center; justify-content: center; }
 
@@ -15,10 +16,10 @@ html, body { height: 100%; background: #0a0a0a; overflow: hidden; }
 }
 
 .phone {
-  width: 393px;
-  height: 852px;
+  width: 100vw;
+  height: 100dvh;
+  max-width: 480px;
   background: #131313;
-  border-radius: 48px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -29,14 +30,11 @@ html, body { height: 100%; background: #0a0a0a; overflow: hidden; }
     inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
-@media (max-height: 900px) {
-  .phone { width: 360px; height: 780px; border-radius: 40px; }
-}
-@media (max-height: 800px) {
-  .phone { width: 320px; height: 693px; border-radius: 36px; }
-}
-@media (max-width: 430px) {
-  .phone { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; }
+@media (max-width: 480px) {
+  .phone { 
+    max-width: none;
+    box-shadow: none; 
+  }
 }
 
 /* ─── Status Bar ─────────────────────────────────────────────────────── */
@@ -74,10 +72,7 @@ html, body { height: 100%; background: #0a0a0a; overflow: hidden; }
   overflow-y: auto;
   background: #131313;
   position: relative;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
-.screen::-webkit-scrollbar { display: none; }
 
 /* ─── Bottom Nav ─────────────────────────────────────────────────────── */
 .bottom-nav {
@@ -270,9 +265,7 @@ input[type='range']::-webkit-slider-thumb {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  scrollbar-width: none;
 }
-.chat-scroll::-webkit-scrollbar { display: none; }
 
 .bubble-coach {
   background: #1C1B1B;
@@ -340,15 +333,27 @@ input[type='range']::-webkit-slider-thumb {
 
 /* ─── Overlay / Sheet ─────────────────────────────────────────────────── */
 .overlay {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
   background: rgba(0,0,0,0.75);
   backdrop-filter: blur(4px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  z-index: 100;
+  z-index: 1000;
   animation: fade-in 0.2s ease;
+}
+@media (max-width: 480px) {
+  .overlay {
+    max-width: none;
+    left: 0;
+    transform: none;
+  }
 }
 .sheet {
   background: #1C1B1B;

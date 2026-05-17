@@ -17,7 +17,7 @@ export default function SignupScreen({ onNavigate }: Props) {
   };
 
   return (
-    <div className="screen" style={{ display: 'flex', flexDirection: 'column', padding: '0 20px', justifyContent: 'center' }}>
+    <div className="screen" style={{ display: 'flex', flexDirection: 'column', padding: '40px 20px', justifyContent: 'center' }}>
       
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
